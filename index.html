@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DualGaming - FiveM Roleplay Server</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo" onclick="showPage('home')">
+                <img src="assets/images/logo.png" alt="DualGaming Logo" class="logo-img">
+                DualGaming
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')" class="nav-link" data-page="home">Acasă</a></li>
+                <li><a href="#" onclick="showPage('shop')" class="nav-link" data-page="shop">Shop</a></li>
+                <li><a href="#" onclick="showPage('features')" class="nav-link" data-page="features">Features</a></li>
+                <li><a href="#" onclick="showPage('contact')" class="nav-link" data-page="contact">Contact</a></li>
+                <li>
+                    <div class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count" id="cart-count">0</span>
+                    </div>
+                </li>
+                <li id="login-btn">
+                    <a href="#" onclick="showLoginModal()" class="nav-link">Login CFX</a>
+                </li>
+                <li id="user-info" style="display: none;">
+                    <span id="username" class="username"></span>
+                    <a href="#" onclick="logout()" class="logout-btn">Logout</a>
+                </li>
+            </ul>
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Coșul meu</h2>
+            <button class="cart-close" onclick="toggleCart()">×</button>
+        </div>
+        <div id="cart-items" class="cart-items">
+            <p class="empty-cart-message">Coșul este gol</p>
+        </div>
+        <div class="cart-total">
+            <h3>Total: <span id="cart-total">0</span> RON</h3>
+            <button class="cart-checkout" onclick="proceedToCheckout()" id="checkout-btn" disabled>
+                Finalizează comanda
+            </button>
+        </div>
+    </div>
+
+    <!-- Overlay for mobile -->
+    <div id="overlay" class="overlay" onclick="closeAll()"></div>
+
+    <!-- CFX Login Modal -->
+    <div id="cfx-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Conectează-te cu CFX.re</h2>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <form onsubmit="cfxLogin(event)" id="cfx-login-form">
+                <div class="form-group">
+                    <label for="cfx-username">Username CFX.re:</label>
+                    <input type="text" id="cfx-username" required placeholder="ex: PlayerName123">
+                </div>
+                <div class="form-group">
+                    <label for="cfx-email">Email:</label>
+                    <input type="email" id="cfx-email" required placeholder="ex: player@email.com">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">
+                        Conectează-te
+                    </button>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">
+                        Anulează
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- HOME PAGE -->
+    <div id="home" class="page active">
+        <section class="hero">
+            <div class="hero-background">
+                <img src="assets/images/hero-bg.jpg" alt="Los Santos Background" class="hero-bg-img">
+                <div class="hero-overlay"></div>
+            </div>
+            
+            <div class="floating-elements">
+                <div class="floating-element" style="top: 20%; left: 10%;">🚗</div>
+                <div class="floating-element" style="top: 60%; right: 15%;">🏢</div>
+                <div class="floating-element" style="top: 30%; right: 20%;">💎</div>
+                <div class="floating-element" style="bottom: 20%; left: 20%;">🎮</div>
+            </div>
+            
+            <div class="hero-content">
+                <h1 class="hero-title">DualGaming</h1>
+                <p class="hero-subtitle">Cel mai realist server de FiveM din România</p>
+                <p class="hero-description">Alătură-te comunității noastre și trăiește experiența roleplay-ului autentic!</p>
+                
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-primary" onclick="connectToServer()">
+                        <span>🎮</span> Conectează-te
+                    </a>
+                    <a href="#" class="btn btn-secondary" onclick="showPage('shop')">
+                        <span>🛒</span> Vizitează Shop-ul
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">De ce să alegi DualGaming?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🚔</div>
+                        <h3>Sistem de Legi Realist</h3>
+                        <p>Experiență autentică cu legi și regulamente care reflectă realitatea, pentru un roleplay mai imersiv.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💼</div>
+                        <h3>Joburi Diverse</h3>
+                        <p>Peste 15 joburi diferite: de la medic la mecanic, de la șofer de taxi la antreprenor.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏠</div>
+                        <h3>Proprietăți Reale</h3>
+                        <p>Cumpără case, apartamente și afaceri. Construiește-ți imperiul în Los Santos!</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <h3>Comunitate Activă</h3>
+                        <p>Peste 1000 de membri activi, staff profesionist și evenimente regulate.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔧</div>
+                        <h3>Scripturi Custom</h3>
+                        <p>Sisteme unice dezvoltate special pentru serverul nostru, actualizate constant.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Competiții și Premii</h3>
+                        <p>Evenimente săptămânale cu premii reale și experiențe unice.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- SHOP PAGE -->
+    <div id="shop" class="page">
+        <div class="container">
+            <!-- User Panel -->
+            <div class="user-panel" id="user-panel" style="display: none;">
+                <div class="user-info">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-details">
+                        <h4 id="user-display-name">Utilizator</h4>
+                        <p id="user-email">email@example.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="shop-header">
+                <h1 class="section-title">DualGaming Shop</h1>
+                <p class="shop-description">Susține serverul și obține beneficii exclusive!</p>
+            </div>
+
+            <div class="shop-categories">
+                <button class="category-btn active" onclick="filterCategory('all')" data-category="all">
+                    Toate
+                </button>
+                <button class="category-btn" onclick="filterCategory('vip')" data-category="vip">
+                    VIP Packages
+                </button>
+                <button class="category-btn" onclick="filterCategory('vehicles')" data-category="vehicles">
+                    Vehicule
+                </button>
+                <button class="category-btn" onclick="filterCategory('properties')" data-category="properties">
+                    Proprietăți
+                </button>
+                <button class="category-btn" onclick="filterCategory('items')" data-category="items">
+                    Obiecte
+                </button>
+            </div>
+
+            <div class="shop-items-grid" id="shop-items-container">
+                <!-- Produsele vor fi generate automat -->
+            </div>
+
+            <!-- Checkout Section -->
+            <div id="checkout-section" class="checkout-section" style="display: none;">
+                <div class="checkout-form">
+                    <h2 class="checkout-title">Finalizează comanda</h2>
+                    
+                    <div class="success-message" id="success-msg" style="display: none;"></div>
+                    <div class="error-message" id="error-msg" style="display: none;"></div>
+                    
+                    <form onsubmit="processPayment(event)" id="checkout-form">
+                        <div class="form-group">
+                            <label for="server-id">ID-ul tău de pe server (obligatoriu):</label>
+                            <input type="number" id="server-id" required min="1" placeholder="ex: 12345">
+                            <small>Găsești ID-ul în joc cu comanda /id</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email-confirm">Confirmă email-ul:</label>
+                            <input type="email" id="email-confirm" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <h3>Rezumatul comenzii:</h3>
+                            <div class="order-summary" id="order-summary"></div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-large">
+                            Plătește <span id="final-total">0</span> RON
+                        </button>
+                    </form>
+
+                    <button onclick="backToShop()" class="btn btn-secondary btn-large">
+                        Înapoi la Shop
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FEATURES PAGE -->
+    <div id="features" class="page">
+        <div class="container">
+            <h1 class="section-title">Caracteristicile Serverului</h1>
+            <p class="page-description">
+                Descoperă toate funcționalitățile avansate care fac din DualGaming cea mai bună experiență de roleplay!
+            </p>
+
+            <div class="features-detailed">
+                <div class="feature-detailed">
+                    <div class="feature-detailed-icon">🚔</div>
+                    <h3>Sistem Legal Avansat</h3>
+                    <p>Sistemul nostru legal este unul dintre cele mai complexe din România, oferind o experiență realistă și imersivă.</p>
+                    <ul class="feature-list">
+                        <li>Legi realiste adaptate pentru Los Santos</li>
+                        <li>Sistem de tribunale funcțional</li>
+                        <li>Advocați și judecători reali</li>
+                        <li>Dosare penale detaliate</li>
+                        <li>Amenzi și sentințe variabile</li>
+                    </ul>
+                </div>
+
+                <div class="feature-detailed">
+                    <div class="feature-detailed-icon">💼</div>
+                    <h3>Joburi și Economie</h3>
+                    <p>O economie complexă cu peste 15 joburi legale și multiple oportunități de afaceri ilegale.</p>
+                    <ul class="feature-list">
+                        <li>Medic - Salvează vieți în spital</li>
+                        <li>Polițist - Menține ordinea</li>
+                        <li>Mecanic - Repară vehicule</li>
+                        <li>Taximetrist - Transport pasageri</li>
+                        <li>Antreprenor - Construiește afaceri</li>
+                        <li>Jurnalist - Relatează știrile</li>
+                        <li>Judecător - Fă dreptate</li>
+                    </ul>
+                </div>
+
+                <div class="feature-detailed">
+                    <div class="feature-detailed-icon">🏠</div>
+                    <h3>Proprietăți și Investiții</h3>
+                    <p>Investește în proprietăți și construiește-ți imperiul financiar în Los Santos.</p>
+                    <ul class="feature-list">
+                        <li>Case și apartamente personalizabile</li>
+                        <li>Magazine și restaurante</li>
+                        <li>Cluburi de noapte și baruri</li>
+                        <li>Depozite și fabrici</li>
+                        <li>Sistem de închiriere</li>
+                        <li>Facturi realiste (curent, apă, etc.)</li>
+                    </ul>
+                </div>
+
+                <div class="feature-detailed">
+                    <div class="feature-detailed-icon">🚗</div>
+                    <h3>Vehicule și Transport</h3>
+                    <p>Peste 500 de vehicule disponibile, de la mașini de oraș la supercars de lux.</p>
+                    <ul class="feature-list">
+                        <li>Sistem de tuning avansat</li>
+                        <li>Asigurări auto obligatorii</li>
+                        <li>ITP și înmatriculări</li>
+                        <li>Transportul în comun funcțional</li>
+                        <li>Permis de conducere cu examene</li>
+                        <li>Amenzi și puncte de penalizare</li>
+                    </ul>
+                </div>
+
+                <div class="feature-detailed">
+                    <div class="feature-detailed-icon">👥</div>
+                    <h3>Comunitate și Evenimente</h3>
+                    <p>O comunitate activă cu evenimente regulate și competiții cu premii reale.</p>
+                    <ul class="feature-list">
+                        <li>Evenimente săptămânale</li>
+                        <li>Competiții de drift și curse</li>
+                        <li>Concerte și spectacole live</li>
+                        <li>Turnee de poker</li>
+                        <li>Sărbători speciale</li>
+                        <li>Premii în bani reali</li>
+                    </ul>
+                </div>
+
+                <div class="feature-detailed">
+                    <div class="feature-detailed-icon">🔧</div>
+                    <h3>Tehnologie și Inovație</h3>
+                    <p>Scripturi custom și funcționalități unice dezvoltate exclusiv pentru serverul nostru.</p>
+                    <ul class="feature-list">
+                        <li>Aplicații mobile în joc</li>
+                        <li>Sistem bancar complex</li>
+                        <li>GPS și navigație</li>
+                        <li>Chat vocal pozițional</li>
+                        <li>Inventar inteligent</li>
+                        <li>Sistem de crafting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACT PAGE -->
+    <div id="contact" class="page">
+        <div class="container">
+            <h1 class="section-title">Contactează-ne</h1>
+            <p class="page-description">
+                Ai întrebări sau ai nevoie de ajutor? Echipa noastră este aici să te ajute!
+            </p>
+
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">💬</div>
+                    <h3>Discord</h3>
+                    <p>Cel mai rapid mod de a ne contacta. Staff-ul nostru este activ 24/7.</p>
+                    <a href="#" class="btn btn-primary">Alătură-te Discord</a>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">📧</div>
+                    <h3>Email</h3>
+                    <p>Pentru probleme tehnice sau întrebări detaliate.</p>
+                    <p class="contact-info">support@dualgaming.ro</p>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">🎮</div>
+                    <h3>În Joc</h3>
+                    <p>Contactează administratorii direct pe server.</p>
+                    <p class="contact-info">Comandă: /report</p>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">🌐</div>
+                    <h3>Social Media</h3>
+                    <p>Urmărește-ne pentru noutăți și anunțuri importante.</p>
+                    <div class="social-links">
+                        <a href="#">Facebook</a>
+                        <a href="#">Instagram</a>
+                        <a href="#">TikTok</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form-container">
+                <div class="contact-form">
+                    <h3 class="contact-form-title">Trimite-ne un Mesaj</h3>
+                    <form onsubmit="sendContactMessage(event)" id="contact-form">
+                        <div class="form-group">
+                            <label for="contact-name">Numele tău:</label>
+                            <input type="text" id="contact-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-email">Email:</label>
+                            <input type="email" id="contact-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-subject">Subiect:</label>
+                            <input type="text" id="contact-subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-message">Mesajul tău:</label>
+                            <textarea id="contact-message" required rows="5" placeholder="Descrie problema sau întrebarea ta în detaliu..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-large">
+                            Trimite Mesajul
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="server-info-card">
+                <h3>Informații Server</h3>
+                <div class="server-info-grid">
+                    <div class="server-info-item">
+                        <strong>IP Server:</strong>
+                        <span>connect dualgaming.ro</span>
+                    </div>
+                    <div class="server-info-item">
+                        <strong>Capacitate:</strong>
+                        <span>128 sloturi</span>
+                    </div>
+                    <div class="server-info-item">
+                        <strong>Status:</strong>
+                        <span class="status-online">● Online</span>
+                    </div>
+                    <div class="server-info-item">
+                        <strong>Jucători:</strong>
+                        <span id="player-count-contact">87/128</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>DualGaming</h3>
+                    <p>Cel mai realist server de FiveM din România. Alătură-te comunității noastre și trăiește experiența roleplay-ului autentic!</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" title="Facebook">📘</a>
+                        <a href="#" class="social-icon" title="Instagram">📷</a>
+                        <a href="#" class="social-icon" title="Discord">🎮</a>
+                        <a href="#" class="social-icon" title="TikTok">💬</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Link-uri Rapide</h3>
+                    <a href="#" onclick="showPage('home')">Acasă</a>
+                    <a href="#" onclick="showPage('shop')">Shop</a>
+                    <a href="#" onclick="showPage('features')">Features</a>
+                    <a href="#" onclick="showPage('contact')">Contact</a>
+                    <a href="#">Regulament</a>
+                    <a href="#">Whitelist</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Comunitate</h3>
+                    <a href="#">Discord</a>
+                    <a href="#">Facebook</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">YouTube</a>
+                    <a href="#">TikTok</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Informații Server</h3>
+                    <p><strong>IP:</strong> connect dualgaming.ro</p>
+                    <p><strong>Slot-uri:</strong> 128</p>
+                    <p><strong>Status:</strong> <span class="status-online">Online</span></p>
+                    <p><strong>Jucători:</strong> <span id="player-count">87/128</span></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 DualGaming. Toate drepturile rezervate.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Screen -->
+    <div id="loading" class="loading-screen">
+        <div class="loading-content">
+            <img src="assets/images/logo.png" alt="DualGaming" class="loading-logo">
+            <div class="loading-text">Se încarcă...</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
