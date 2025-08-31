@@ -143,7 +143,15 @@ const products = [
         category: 'items',
         icon: '🔢',
         description: 'Număr de înmatriculare personalizat pentru vehiculele tale.'
-    }
+    },
+    {
+        id: 'pack-smurd',
+        name: 'Pack Smurd Personalizat',
+        price: 15,
+        category: 'items', // sau 'vehicles', 'properties', 'items'
+        icon: '🎒',
+        description: 'Avem un Pack pentru Smurd pt cei la inceput, un GHID complet pe discord.'
+}
 ];
 
 // ============ VARIABILE GLOBALE ============
@@ -1307,4 +1315,5 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
             showNotification('Test Info', 'info');
         }
     };
+
 }
